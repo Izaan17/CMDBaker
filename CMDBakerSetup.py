@@ -1,6 +1,7 @@
 import getpass
 import os
 import json
+from CMDUtil import error_msg, notice_msg
 
 
 class Config:
@@ -40,7 +41,7 @@ def get_path(prompt, exists=False, create=False):
         path = input(prompt)
         if exists:
             if not os.path.exists(path):
-                print("[-] Path does not exist please enter a valid path.")
+                print(f"{error_msg()} Path does not exist please enter a valid path.")
                 continue
             else:
                 return path
@@ -65,11 +66,10 @@ if not os.path.exists(config_location):
 ||C |||M |||D |||       |||B |||a |||k |||e |||r ||
 ||__|||__|||__|||_______|||__|||__|||__|||__|||__||
 |/__\\|/__\\|/__\\|/_______\\|/__\\|/__\\|/__\\|/__\\|/__\\|
-\t\t\t\tCMD Baker Setup""")
+\t\t\tCMD Baker Setup""")
     main_path = get_path("Main Path (all of your scripts will be stored here): ", exists=True, create=True)
-    print(f"[+] Created path: {os.path.abspath(main_path)}")
+    print(f"{notice_msg()} Created path: {os.path.abspath(main_path)}")
     # Save main path to config
     config_data = {"main_path": main_path, "is_baked": False}
-    print(config_location)
     config = Config(config_location)
     config.write_config(config_data)

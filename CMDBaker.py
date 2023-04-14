@@ -1,6 +1,6 @@
 import argparse
 import os
-from CMDUtil import error_msg, notice_msg, listed_cmd, baked_cmd
+from CMDUtil import error_msg, notice_msg, listed_cmd, baked_cmd, confirmation
 
 import CMDBakerSetup
 from CMDBakerSetup import Config, home
@@ -96,6 +96,11 @@ def list_commands():
         if command != ".DS_Store":
             print(f"{listed_cmd()} {command}")
 
+def reconfig():
+    # Remove configure location
+    if confirmation("Are you sure you want to redo the setup? (yes/no) "):
+        os.remove(CMDBakerSetup.config_location)
+
 
 config = Config(CMDBakerSetup.config_location)
 config_data = config.load_config()
@@ -112,7 +117,18 @@ parser.add_argument("-l", "--list", help="Lists all the commands created with ba
 parser.add_argument("-d", "--delete", help="Delete baked commands.")
 parser.add_argument("-e", "--edit", help="Edit baked commands.")
 parser.add_argument("-v", "--view", help="View contents of baked commands.")
+parser.add_argument("-c", "--config", help="Redo the setup process.", action="store_true")
 args = parser.parse_args()
+
+if not is_baked:
+    # Bake ourselves first to allow access to bake in the terminal
+    self_baked_command = bake_command(source=__file__)
+    print(f"{notice_msg()} Baked self to make it easier!")
+    print(f"{notice_msg()} You can now bake new commands using the bake command!")
+    create_command("bake", self_baked_command, starting_location=CMDBakerSetup.folder_location)
+    # Set that we are baked
+    config.append_config("is_baked", True)
+    quit(0)
 
 if args.list:
     list_commands()
@@ -129,16 +145,13 @@ if args.edit:
 if args.view:
     view_command(args.view)
     quit(0)
+
+if args.config:
+    reconfig() 
+    quit(0)
+    
 if args.command_name and args.source:
     command_name = args.command_name.strip()
-    # Bake ourselves first to allow access to bake in the terminal
-    if not is_baked:
-        self_baked_command = bake_command(source=__file__)
-        print(f"{notice_msg()} Baked self to make it easier!")
-        print(f"{notice_msg()} You can now bake new commands using the bake command!")
-        create_command("bake", self_baked_command, starting_location=CMDBakerSetup.folder_location)
-        # Set that we are baked
-        config.append_config("is_baked", True)
 
     create_command(command_name=command_name,
                    baked_command=bake_command(source=args.source, interpreter=args.interpreter, shebang=args.shebang))

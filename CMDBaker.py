@@ -1,5 +1,6 @@
 import argparse
 import os
+from CMDUtil import error_msg, notice_msg, listed_cmd, baked_cmd
 
 import CMDBakerSetup
 from CMDBakerSetup import Config, home
@@ -56,7 +57,7 @@ def edit_command(command_name):
             baked_command = bake_command(source, interpreter, shebang)
             create_command(new_command_name, baked_command=baked_command)
     else:
-        print(f"[-] '{full_path}' does not exist.")
+        print(f"{error_msg()} '{full_path}' does not exist.")
 
 
 def view_command(command_name):
@@ -66,7 +67,7 @@ def view_command(command_name):
             contents = old_command_file.read()
             print(contents)
     else:
-        print(f"[-] '{full_path}' does not exist.")
+        print(f"{error_msg()} '{full_path}' does not exist.")
 
 
 def delete_command(command_name):
@@ -74,10 +75,10 @@ def delete_command(command_name):
     if os.path.exists(full_path):
         os.remove(full_path)
     else:
-        print(f"[-] '{full_path}' does not exist.")
+        print(f"{error_msg()} '{full_path}' does not exist.")
 
 
-def bake_command(source, shebang=None, interpreter=None):
+def bake_command(source: str, shebang=None, interpreter=None) -> str:
     if shebang is None:
         shebang = "#!/bin/zsh"
     if interpreter is None:
@@ -89,10 +90,11 @@ def bake_command(source, shebang=None, interpreter=None):
 
 
 def list_commands():
+    """Lists all baked commands"""
     baked_commands = os.listdir(baked_commands_path)
     for command in baked_commands:
         if command != ".DS_Store":
-            print(command)
+            print(f"{listed_cmd()} {command}")
 
 
 config = Config(CMDBakerSetup.config_location)
@@ -132,15 +134,15 @@ if args.command_name and args.source:
     # Bake ourselves first to allow access to bake in the terminal
     if not is_baked:
         self_baked_command = bake_command(source=__file__)
-        print("[+] Baked self to make it easier!")
-        print("[+] You can now bake new commands using the bake command!")
+        print(f"{notice_msg()} Baked self to make it easier!")
+        print(f"{notice_msg()} You can now bake new commands using the bake command!")
         create_command("bake", self_baked_command, starting_location=CMDBakerSetup.folder_location)
         # Set that we are baked
         config.append_config("is_baked", True)
 
     create_command(command_name=command_name,
                    baked_command=bake_command(source=args.source, interpreter=args.interpreter, shebang=args.shebang))
-    print(f"Baked '{command_name}'")
+    print(f"{baked_cmd()} Baked '{command_name}'")
 else:
     parser.print_help()
     quit(-1)

@@ -8,7 +8,7 @@ from CMDBakerSetup import Config, home
 def add_path_to_terminal(main_path):
     # Get Shells name
     current_shell = os.environ['SHELL'].split("/")[-1]
-    path_string = f"export PATH=$PATH:{main_path}"
+    path_string = f"\nexport PATH=$PATH:{main_path}"
     with open(f"{home}/.{current_shell}rc", 'a+') as file:
         file.seek(0)
         found = False
@@ -25,12 +25,14 @@ def chmod(full_path):
     os.system(f"chmod +x {full_path}")
 
 
-def create_command(command_name, baked_command):
-    full_path = f"{baked_commands_path}/{command_name}"
+def create_command(command_name, baked_command, starting_location=None):
+    if starting_location is None:
+        starting_location = baked_commands_path
+    full_path = f"{starting_location}/{command_name}"
     with open(full_path, 'w') as command_file:
         command_file.write(baked_command)
     chmod(full_path)
-    add_path_to_terminal(baked_commands_path)
+    add_path_to_terminal(starting_location)
 
 
 def edit_command(command_name):
@@ -125,12 +127,12 @@ if args.view:
     quit(0)
 if args.command_name and args.source:
     command_name = args.command_name.strip()
-    # Bake ourselves first to prevent issues and make it easier
+    # Bake ourselves first to allow access to bake in the terminal
     if not is_baked:
         self_baked_command = bake_command(source=__file__)
         print("[+] Baked self to make it easier!")
         print("[+] You can now bake new commands using the bake command!")
-        create_command("bake", self_baked_command)
+        create_command("bake", self_baked_command, starting_location=CMDBakerSetup.folder_location)
         # Set that we are baked
         config.append_config("is_baked", True)
 

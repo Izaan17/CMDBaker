@@ -65,6 +65,8 @@ def view_command(command_name):
         with open(full_path, 'r') as old_command_file:
             contents = old_command_file.read()
             print(contents)
+    else:
+        print(f"[-] '{full_path}' does not exist.")
 
 
 def delete_command(command_name):

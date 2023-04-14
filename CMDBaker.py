@@ -96,6 +96,13 @@ def list_commands():
         if command != ".DS_Store":
             print(f"{listed_cmd()} {command}")
 
+def change_main_path(new_path):
+    if os.path.exists(new_path): 
+        config.append_config(key="main_path", value=new_path)
+    else:
+        print(f"{error_msg()} '{new_path}' does not exist.")
+    
+
 def reconfig():
     # Remove configure location
     if confirmation("Are you sure you want to redo the setup? (yes/no) "):
@@ -118,6 +125,7 @@ parser.add_argument("-d", "--delete", help="Delete baked commands.")
 parser.add_argument("-e", "--edit", help="Edit baked commands.")
 parser.add_argument("-v", "--view", help="View contents of baked commands.")
 parser.add_argument("-c", "--config", help="Redo the setup process.", action="store_true")
+parser.add_argument("-m", "--main", help="Edit main path to somewhere else.")
 args = parser.parse_args()
 
 if not is_baked:
@@ -128,6 +136,10 @@ if not is_baked:
     create_command("bake", self_baked_command, starting_location=CMDBakerSetup.folder_location)
     # Set that we are baked
     config.append_config("is_baked", True)
+    quit(0)
+
+if args.main:
+    change_main_path(args.main)
     quit(0)
 
 if args.list:

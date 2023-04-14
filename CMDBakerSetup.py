@@ -66,7 +66,7 @@ if not os.path.exists(config_location):
 ||C |||M |||D |||       |||B |||a |||k |||e |||r ||
 ||__|||__|||__|||_______|||__|||__|||__|||__|||__||
 |/__\\|/__\\|/__\\|/_______\\|/__\\|/__\\|/__\\|/__\\|/__\\|
-\t\t\tCMD Baker Setup""")
+\t\tCMD Baker Setup""")
     main_path = get_path("Main Path (all of your scripts will be stored here): ", exists=True, create=True)
     print(f"{notice_msg()} Created path: {os.path.abspath(main_path)}")
     # Save main path to config

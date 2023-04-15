@@ -108,6 +108,14 @@ def reconfig():
     if confirmation("Are you sure you want to redo the setup? (yes/no) "):
         os.remove(CMDBakerSetup.config_location)
 
+def update():
+    print(f"{notice_msg()} Updating...")
+    current_dir = os.getcwd()
+    command_origin = os.path.dirname(__file__)
+    os.chdir(command_origin)
+    os.system("git pull")
+    os.system(f"cd {current_dir}")
+
 
 config = Config(CMDBakerSetup.config_location)
 config_data = config.load_config()
@@ -126,6 +134,7 @@ parser.add_argument("-e", "--edit", help="Edit baked commands.")
 parser.add_argument("-v", "--view", help="View contents of baked commands.")
 parser.add_argument("-c", "--config", help="Redo the setup process.", action="store_true")
 parser.add_argument("-m", "--main", help="Edit main path to somewhere else.")
+parser.add_argument("-u", "--update", help="Fire up a new pot.", action="store_true")
 args = parser.parse_args()
 
 if not is_baked:
@@ -140,6 +149,10 @@ if not is_baked:
 
 if args.main:
     change_main_path(args.main)
+    quit(0)
+
+if args.update:
+    update()
     quit(0)
 
 if args.list:

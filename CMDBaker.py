@@ -140,7 +140,7 @@ args = parser.parse_args()
 if not is_baked:
     # Bake ourselves first to allow access to bake in the terminal
     self_baked_command = bake_command(source=__file__)
-    print(f"{notice_msg()} Baked self to make it easier!")
+    print(f"{notice_msg()} Baked self.")
     print(f"{notice_msg()} You can now bake new commands using the bake command!")
     create_command("bake", self_baked_command, starting_location=CMDBakerSetup.folder_location)
     # Set that we are baked

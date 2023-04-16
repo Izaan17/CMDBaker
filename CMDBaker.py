@@ -9,7 +9,7 @@ from CMDBakerSetup import Config, home
 def add_path_to_terminal(main_path):
     # Get Shells name
     current_shell = os.environ['SHELL'].split("/")[-1]
-    path_string = f"\nexport PATH=$PATH:{main_path}"
+    path_string = f"export PATH=$PATH:{main_path}\n"
     with open(f"{home}/.{current_shell}rc", 'a+') as file:
         file.seek(0)
         found = False

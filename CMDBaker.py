@@ -54,7 +54,7 @@ def edit_command(command_name):
             source = source if source != "" else old_source
             interpreter = input("Interpreter (leave empty for same one): ").strip()
             interpreter = interpreter if interpreter != "" else old_interpreter
-            baked_command = bake_command(source, interpreter, shebang)
+            baked_command = bake_command(source, shebang, interpreter)
             create_command(new_command_name, baked_command=baked_command)
     else:
         print(f"{error_msg()} '{full_path}' does not exist.")

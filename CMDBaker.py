@@ -16,7 +16,7 @@ def add_path_to_terminal(main_path):
         lines = file.readlines()
         for line in lines:
             # Check if previously was writen else it will write again.
-            if path_string in line:
+            if path_string == line:
                 found = True
         if not found:
             file.write(path_string)

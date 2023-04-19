@@ -60,6 +60,12 @@ def edit_command(command_name):
         print(f"{error_msg()} '{full_path}' does not exist.")
 
 
+def command_exists(command_name):
+    full_path = f"{baked_commands_path}/{command_name}"
+    if os.path.exists(full_path):
+        return True
+    return False
+
 def view_command(command_name):
     full_path = f"{baked_commands_path}/{command_name}"
     if os.path.exists(full_path):
@@ -182,7 +188,10 @@ if args.print:
     
 if args.command_name and args.source:
     command_name = args.command_name.strip()
-
+    if command_exists(command_name):
+        print(f"{error_msg()} Command '{command_name}' already exists.")
+        quit(0)
+        
     create_command(command_name=command_name,
                    baked_command=bake_command(source=args.source, interpreter=args.interpreter, shebang=args.shebang))
     print(f"{baked_cmd()} Baked '{command_name}'")

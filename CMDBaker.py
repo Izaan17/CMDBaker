@@ -135,6 +135,7 @@ parser.add_argument("-v", "--view", help="View contents of baked commands.")
 parser.add_argument("-c", "--config", help="Redo the setup process.", action="store_true")
 parser.add_argument("-m", "--main", help="Edit main path to somewhere else.")
 parser.add_argument("-u", "--update", help="Fire up a new pot.", action="store_true")
+parser.add_argument("-p", "--print", help="Print main path.", action="store_true")
 args = parser.parse_args()
 
 if not is_baked:
@@ -174,6 +175,9 @@ if args.view:
 if args.config:
     reconfig() 
     quit(0)
+
+if args.print:
+    print(baked_commands_path)
     
 if args.command_name and args.source:
     command_name = args.command_name.strip()

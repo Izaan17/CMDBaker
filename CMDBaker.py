@@ -177,7 +177,8 @@ if args.config:
     quit(0)
 
 if args.print:
-    print(baked_commands_path)
+    print(f"{notice_msg()} {baked_commands_path}")
+    quit(0)
     
 if args.command_name and args.source:
     command_name = args.command_name.strip()

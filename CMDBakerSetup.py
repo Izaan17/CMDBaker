@@ -56,7 +56,7 @@ def get_path(prompt, exists=False, create=False):
 
 user = getpass.getuser()
 home = os.path.expanduser('~')
-folder_location = f"{home}/CMDBaker"
+folder_location = f"{home}/CMDBaker/"
 config_location = f"{folder_location}config.json"
 if not os.path.exists(folder_location):
     os.mkdir(folder_location)

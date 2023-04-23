@@ -3,7 +3,7 @@ import os
 from CMDUtil import error_msg, notice_msg, listed_cmd, baked_cmd, confirmation
 
 import CMDBakerSetup
-from CMDBakerSetup import Config, home
+from CMDBakerSetup import Config, home, folder_location
 
 
 def add_path_to_terminal(main_path):
@@ -35,7 +35,7 @@ def create_command(command_name, baked_command, starting_location=None):
     chmod(full_path)
 
 def edit_command(command_name):
-    full_path = f"{baked_commands_path}/{command_name}"
+    full_path = command_joiner(command_name)
     if os.path.exists(full_path):
         with open(full_path, 'r') as old_command_file:
             contents = old_command_file.read()
@@ -59,13 +59,16 @@ def edit_command(command_name):
 
 
 def command_exists(command_name):
-    full_path = f"{baked_commands_path}/{command_name}"
-    if os.path.exists(full_path):
+    if os.path.exists(command_joiner(command_name)):
         return True
     return False
 
-def view_command(command_name):
+def command_joiner(command_name):
     full_path = f"{baked_commands_path}/{command_name}"
+    return full_path
+
+def view_command(command_name):
+    full_path = command_joiner(command_name)
     if os.path.exists(full_path):
         with open(full_path, 'r') as old_command_file:
             contents = old_command_file.read()
@@ -75,7 +78,7 @@ def view_command(command_name):
 
 
 def delete_command(command_name):
-    full_path = f"{baked_commands_path}/{command_name}"
+    full_path = command_joiner(command_name)
     if os.path.exists(full_path):
         os.remove(full_path)
     else:
@@ -149,7 +152,7 @@ if not is_baked:
     self_baked_command = bake_command(source=__file__)
     print(f"{notice_msg()} Baked self.")
     print(f"{notice_msg()} You can now bake new commands using the bake command!")
-    create_command("bake", self_baked_command, starting_location=CMDBakerSetup.folder_location)
+    create_command("bake", self_baked_command, starting_location=folder_location)
     # Set that we are baked
     config.append_config("is_baked", True)
     quit(0)

@@ -48,10 +48,10 @@ def edit_command(command_name):
             new_command_name = new_command_name if new_command_name != "" else command_name
             shebang = input("Shebang (leave empty for same one): ").strip()
             shebang = shebang if shebang != "" else old_shebang
-            source = input("Source (leave empty for same one): ").strip()
-            source = source if source != "" else old_source
             interpreter = input("Interpreter (leave empty for same one): ").strip()
             interpreter = interpreter if interpreter != "" else old_interpreter
+            source = input("Source (leave empty for same one): ").strip()
+            source = source if source != "" else old_source
             baked_command = bake_command(source, shebang, interpreter)
             create_command(new_command_name, baked_command=baked_command)
     else:
@@ -143,6 +143,7 @@ parser.add_argument("-c", "--config", help="Redo the setup process.", action="st
 parser.add_argument("-m", "--main", help="Edit main path to somewhere else.")
 parser.add_argument("-u", "--update", help="Fire up a new pot.", action="store_true")
 parser.add_argument("-p", "--print", help="Print main path.", action="store_true")
+parser.add_argument("-in", "--into", help="CD into the baked commands directory.")
 args = parser.parse_args()
 add_path_to_terminal(baked_commands_path) # Add the main folder to the terminal file
 
@@ -151,10 +152,22 @@ if not is_baked:
     # Bake ourselves first to allow access to bake in the terminal
     self_baked_command = bake_command(source=__file__)
     print(f"{notice_msg()} Baked self.")
-    print(f"{notice_msg()} You can now bake new commands using the bake command!")
     create_command("bake", self_baked_command, starting_location=folder_location)
+    print(f"{notice_msg()} You can now bake new commands using the bake command!")
     # Set that we are baked
     config.append_config("is_baked", True)
+    quit(0)
+
+if args.into:
+    path = command_joiner(args.into)
+    with open(path, 'r') as file:
+        data = file.read()
+        source = data.split(" ",)[1]
+        folder = source.split("/")[:-1]
+        folder = '/'.join(folder)
+        os.chdir(folder)
+        current_shell = os.environ['SHELL'].split("/")[-1]
+        os.system(f"/bin/{current_shell}")
     quit(0)
 
 if args.main:

@@ -141,8 +141,7 @@ parser.add_argument("-m", "--main", help="Edit main path to somewhere else.")
 parser.add_argument("-u", "--update", help="Fire up a new pot.", action="store_true")
 parser.add_argument("-p", "--print", help="Print main path.", action="store_true")
 args = parser.parse_args()
-# Add the main folder to the terminal file
-add_path_to_terminal(baked_commands_path)
+add_path_to_terminal(baked_commands_path) # Add the main folder to the terminal file
 
 
 if not is_baked:

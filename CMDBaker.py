@@ -33,8 +33,6 @@ def create_command(command_name, baked_command, starting_location=None):
     with open(full_path, 'w') as command_file:
         command_file.write(baked_command)
     chmod(full_path)
-    add_path_to_terminal(starting_location)
-
 
 def edit_command(command_name):
     full_path = f"{baked_commands_path}/{command_name}"
@@ -143,6 +141,9 @@ parser.add_argument("-m", "--main", help="Edit main path to somewhere else.")
 parser.add_argument("-u", "--update", help="Fire up a new pot.", action="store_true")
 parser.add_argument("-p", "--print", help="Print main path.", action="store_true")
 args = parser.parse_args()
+# Add the main folder to the terminal file
+add_path_to_terminal(baked_commands_path)
+
 
 if not is_baked:
     # Bake ourselves first to allow access to bake in the terminal

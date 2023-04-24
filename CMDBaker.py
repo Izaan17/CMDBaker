@@ -147,8 +147,8 @@ parser.add_argument("-in", "--into", help="CD into the baked commands directory.
 args = parser.parse_args()
 add_path_to_terminal(baked_commands_path) # Add the main folder to the terminal file
 
-
-if not is_baked:
+# Do two checks to see of we are not baked.
+if not is_baked or not os.path.exists(f"{folder_location}bake"):
     # Bake ourselves first to allow access to bake in the terminal
     self_baked_command = bake_command(source=__file__)
     print(f"{notice_msg()} Baked self.")

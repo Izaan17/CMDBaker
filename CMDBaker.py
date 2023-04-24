@@ -159,15 +159,19 @@ if not is_baked:
     quit(0)
 
 if args.into:
-    path = command_joiner(args.into)
-    with open(path, 'r') as file:
-        data = file.read()
-        source = data.split(" ",)[1]
-        folder = source.split("/")[:-1]
-        folder = '/'.join(folder)
-        os.chdir(folder)
-        current_shell = os.environ['SHELL'].split("/")[-1]
-        os.system(f"/bin/{current_shell}")
+    command_name = args.into
+    if command_exists(command_name):
+        path = command_joiner(command_name)
+        with open(path, 'r') as file:
+            data = file.read()
+            source = data.split(" ",)[1]
+            folder = source.split("/")[:-1]
+            folder = '/'.join(folder)
+            os.chdir(folder)
+            current_shell = os.environ['SHELL'].split("/")[-1]
+            os.system(f"/bin/{current_shell}")
+    else:
+        print(f"{error_msg()} '{command_joiner(command_name)}' does not exist.")
     quit(0)
 
 if args.main:

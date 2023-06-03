@@ -1,4 +1,4 @@
 # CMDBaker
 Bake commands making it easier to create terminal commands
 
-![(https://imgur.com/a/pVGBqF7)]
+![CMDBaker Tutorial](https://imgur.com/a/pVGBqF7)

@@ -1,5 +1,6 @@
 # CMDBaker
-Bake python scripts into your terminal.
+Bake python scripts into your terminal making it easier to run your python scripts.
+Only works on MacOS.
 
 
 # Usage
@@ -11,6 +12,16 @@ Bake python scripts into your terminal.
 ![CMDBaker Tutorial](https://imgur.com/T57lKb8.gif)
 
 # Flags
+## List all baked commands
 ![CMDBaker Flags](https://imgur.com/B5xG78j.gif)
 
+`bake -l`
+
+# View baked commands contents
+
 ![CMDBaker Flags](https://imgur.com/mvNlXKu.gif)
+
+`bake -v COMMAND_NAME`
+
+#### Move to directory of python script
+`bake -in COMMAND_NAME`

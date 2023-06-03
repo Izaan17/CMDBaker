@@ -2,6 +2,10 @@
 Bake python scripts into your terminal making it easier to run your python scripts.
 Only works on MacOS.
 
+# Setup
+To setup CMDBaker just run the python file.
+`python CMDBaker.py`
+ `python3 CMDBaker.py`
 
 # Usage
 ![CMDBaker Usage](https://imgur.com/fck4GiU.gif)

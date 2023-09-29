@@ -7,9 +7,7 @@ from CMDUtil import error_msg, notice_msg
 class Config:
     def __init__(self, path, data: dict = None):
         self.path = path
-        self.data = {}
-        if data:
-            self.data = data
+        self.data = data if data else {}
 
     def load_config(self):
         with open(self.path, 'r') as config_file:

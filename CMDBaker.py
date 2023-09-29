@@ -36,7 +36,7 @@ def create_command(command_name, baked_command, starting_location=None):
 
 def edit_command(command_name):
     full_path = command_joiner(command_name)
-    if os.path.exists(full_path):
+    if command_exists(command_name):
         with open(full_path, 'r') as old_command_file:
             contents = old_command_file.read()
             split_contents = contents.split()
@@ -69,7 +69,7 @@ def command_joiner(command_name):
 
 def view_command(command_name):
     full_path = command_joiner(command_name)
-    if os.path.exists(full_path):
+    if command_exists(command_name):
         with open(full_path, 'r') as old_command_file:
             contents = old_command_file.read()
             print(contents)
@@ -79,7 +79,7 @@ def view_command(command_name):
 
 def delete_command(command_name):
     full_path = command_joiner(command_name)
-    if os.path.exists(full_path):
+    if command_exists(command_name):
         os.remove(full_path)
     else:
         print(f"{error_msg()} '{full_path}' does not exist.")

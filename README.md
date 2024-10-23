@@ -1,16 +1,19 @@
 # CMDBaker
 Bake python scripts into your terminal making it easier to run your python scripts.
-Only works on MacOS.
+Only works on macOS.
 
 # Setup
-To setup CMDBaker just run the python file.
-`python CMDBaker.py`
- `python3 CMDBaker.py`
+To set up CMDBaker just run the python file.
+```zsh
+python3 main.py
+```
 
 # Usage
 ![CMDBaker Usage](https://imgur.com/fck4GiU.gif)
 
-`bake COMMAND_NAME PYTHON_SOURCE_FILE`
+```zsh
+bake COMMAND_NAME PYTHON_SOURCE_FILE
+```
 
 # Created Command Showcase
 ![CMDBaker Tutorial](https://imgur.com/T57lKb8.gif)
@@ -19,13 +22,19 @@ To setup CMDBaker just run the python file.
 ## List all baked commands
 ![CMDBaker Flags](https://imgur.com/B5xG78j.gif)
 
-`bake -l`
+```zsh
+bake -l
+```
 
 # View baked commands contents
 
 ![CMDBaker Flags](https://imgur.com/mvNlXKu.gif)
 
-`bake -v COMMAND_NAME`
+```zsh
+bake -v COMMAND_NAME
+```
 
 #### Move to directory of python script
-`bake -in COMMAND_NAME`
+```zsh
+bake -in COMMAND_NAME
+```

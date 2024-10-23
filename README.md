@@ -5,6 +5,8 @@ Only works on macOS.
 # Setup
 To set up CMDBaker just run the python file.
 ```zsh
+pip install -r requirements.txt
+
 python3 main.py
 ```
 

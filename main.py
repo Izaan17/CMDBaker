@@ -19,18 +19,19 @@ def get_args() -> argparse.Namespace:
     )
 
     parser.add_argument("command_name", help="The command's name", type=str, nargs='?')
-    parser.add_argument("source", help="The python script to run", type=str, nargs='?')
+    parser.add_argument("source", help="The python script to run", type=argparse.FileType(), nargs='?')
     parser.add_argument("-i", "--interpreter", help="Which version of python")
     parser.add_argument("-s", "--shebang", help="The top of the file")
     parser.add_argument("-l", "--list", help="List all baked commands", action="store_true")
     parser.add_argument("-d", "--delete", help="Delete a baked command")
     parser.add_argument("-e", "--edit", help="Edit a baked command")
-    parser.add_argument("-v", "--view", help="View contents of a baked command")
+    parser.add_argument("-vc", "--view", help="View contents of a baked command")
     parser.add_argument("-c", "--config", help="Redo setup process", action="store_true")
     parser.add_argument("-m", "--main", help="Edit main path")
     parser.add_argument("-u", "--update", help="Update from git", action="store_true")
     parser.add_argument("-p", "--print", help="Print main path", action="store_true")
     parser.add_argument("-in", "--into", help="CD into baked commands directory")
+    parser.add_argument("-v", "--version", help="Outputs current version", action="store_true")
 
     return parser.parse_args()
 
@@ -143,6 +144,9 @@ def main():
         )
         handler.create_command(command_name, baked_command)
         print(f"{format_msg(MessageType.CMD)} Baked '{command_name}'")
+
+    if args.version:
+        print(format_msg(MessageType.NOTICE), version)
 
 
 if __name__ == '__main__':

@@ -76,7 +76,6 @@ def main():
         try:
             os.remove(bake_command_file_path)
             print(format_msg(MessageType.NOTICE), "Successfully deleted old bake command.")
-            print(format_msg(MessageType.NOTICE), "Rebaking self...")
             # update config data with version
             config_data['version'] = VERSION
             config.write_config(config_data)

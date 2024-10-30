@@ -2,7 +2,7 @@ import os
 from utils.console import format_msg, MessageType
 
 
-def get_path(prompt, check_if_exists=False, create=False):
+def get_path(prompt: str, check_if_exists: bool = False, create: bool = False) -> str:
     """Gets a path from user input with optional validation and creation."""
     while True:
         path = input(prompt).strip()

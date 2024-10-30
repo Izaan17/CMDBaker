@@ -11,7 +11,7 @@ ASCII_LOGO = """
 |/__\\|/__\\|/__\\|/_______\\|/__\\|/__\\|/__\\|/__\\|/__\\|
 \t\tCMD Baker Setup"""
 
-def ensure_base_directory():
+def ensure_base_directory() -> bool:
     """Ensure the base application directory exists."""
     try:
         os.makedirs(FOLDER_LOCATION, exist_ok=True)
@@ -20,7 +20,7 @@ def ensure_base_directory():
         print(f"{format_msg(MessageType.ERROR)} Cannot create base directory")
         return False
 
-def setup_config():
+def setup_config() -> bool:
     """Initialize configuration file with main path."""
     if os.path.exists(CONFIG_LOCATION):
         return True
@@ -49,7 +49,7 @@ def setup_config():
         print(f"{format_msg(MessageType.ERROR)} Failed to write config: {e}")
         return False
 
-def main():
+def main() -> None:
     """Run the setup process."""
     if not ensure_base_directory():
         return

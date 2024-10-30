@@ -4,7 +4,7 @@ from utils.console import MessageType, format_msg
 from utils.shell import chmod_executable
 
 class CommandHandler:
-    def __init__(self, commands_path: str):
+    def __init__(self, commands_path: str) -> None:
         self.commands_path = commands_path
 
     def create_command(self, command_name: str, baked_command: str, starting_location: Optional[str] = None) -> None:

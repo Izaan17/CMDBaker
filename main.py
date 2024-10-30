@@ -34,7 +34,7 @@ def get_args() -> argparse.Namespace:
 
     return parser.parse_args()
 
-def update_cmd_baker():
+def update_cmd_baker() -> None:
     """Update CMD Baker from git."""
     print(f"{format_msg(MessageType.NOTICE)} Updating...")
     current_dir = os.getcwd()
@@ -43,7 +43,7 @@ def update_cmd_baker():
     os.system("git pull")
     os.chdir(current_dir)
 
-def main():
+def main() -> None:
     setup.main() # Init settings
 
     config = Config(CONFIG_LOCATION)

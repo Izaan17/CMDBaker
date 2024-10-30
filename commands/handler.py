@@ -61,7 +61,18 @@ class CommandHandler:
 
         try:
             with open(self.get_command_path(command_name), 'r') as file:
-                print(file.read())
+                content = file.read().splitlines()
+                shebang = content[0]
+                command = content[1].split()
+                interpreter = command[0]
+                path = command[1]
+                symbol = command[2]
+                # Set a fixed width for the formatted messages
+                field_width = 25  #
+                print(f"{format_msg(MessageType.SHEBANG):<{field_width}} {shebang}")
+                print(f"{format_msg(MessageType.INTERPRETER):<{field_width}} {interpreter}")
+                print(f"{format_msg(MessageType.PATH):<{field_width}} {path}")
+                print(f"{format_msg(MessageType.SYMBOL):<{field_width}} {symbol}")
         except IOError as e:
             print(f"{format_msg(MessageType.ERROR)} Failed to read command: {e}")
 

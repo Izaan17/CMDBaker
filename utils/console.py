@@ -8,6 +8,10 @@ class MessageType(Enum):
     CMD = (Fore.GREEN, "cmd")
     WARNING = (Fore.YELLOW, "warning")
     BAKED = (Fore.GREEN, "baked")
+    SHEBANG = (Fore.RED, "shebang")
+    INTERPRETER = (Fore.YELLOW, "interpreter")
+    PATH = (Fore.GREEN, "path")
+    SYMBOL = (Fore.BLUE, "symbol")
 
 
 def format_msg(msg_type: MessageType) -> str:

@@ -1,13 +1,12 @@
 import argparse
 import os
-import shutil
 
+import setup
 from commands.handler import CommandHandler
 from config import Config
-from constants import FOLDER_LOCATION, CONFIG_LOCATION
+from constants import FOLDER_LOCATION, CONFIG_LOCATION, VERSION
 from utils.console import MessageType, format_msg, confirm
 from utils.shell import add_path_to_terminal
-import setup
 
 
 def get_args() -> argparse.Namespace:
@@ -75,9 +74,12 @@ def main():
         print(format_msg(MessageType.WARNING), "You are on an old version of bake.")
         print(format_msg(MessageType.NOTICE), "Deleting old bake file.")
         try:
-            shutil.rmtree(FOLDER_LOCATION)
+            os.remove(bake_command_file_path)
             print(format_msg(MessageType.NOTICE), "Successfully deleted old bake command.")
             print(format_msg(MessageType.NOTICE), "Rebaking self...")
+            # update config data with version
+            config_data['version'] = VERSION
+            config.write_config(config_data)
             return main()
         except OSError as error:
             print(format_msg(MessageType.ERROR), f"An error occurred deleting the old bake folder: {error}")

@@ -34,7 +34,7 @@ def get_args() -> argparse.Namespace:
 
     return parser.parse_args()
 
-def update_cmd_baker() -> None:
+def update_cmd_baker(config) -> None:
     """Update CMD Baker from git."""
     print(f"{format_msg(MessageType.NOTICE)} Updating...")
     current_dir = os.getcwd()
@@ -42,6 +42,7 @@ def update_cmd_baker() -> None:
     os.chdir(command_origin)
     os.system("git pull")
     os.chdir(current_dir)
+    config.append_config('version', VERSION)
 
 def main() -> None:
     setup.main() # Init settings
@@ -81,7 +82,7 @@ def main() -> None:
             config.write_config(config_data)
             return main()
         except OSError as error:
-            print(format_msg(MessageType.ERROR), f"An error occurred deleting the old bake folder: {error}")
+            print(format_msg(MessageType.ERROR), f"An error occurred deleting the old bake file: {error}")
             print(format_msg(MessageType.NOTICE), f"You can delete it manually located at: {bake_command_file_path}")
 
     # Handle command line arguments
@@ -107,8 +108,12 @@ def main() -> None:
         return
 
     if args.update:
-        update_cmd_baker()
-        return
+        # config version mismatch
+        if version < VERSION:
+            if confirm(f'{format_msg(MessageType.NOTICE)} An update is available do you want to update?', True):
+                return update_cmd_baker(config)
+        else:
+            print(f'{format_msg(MessageType.NOTICE)} No update available.')
 
     if args.list:
         handler.list_commands()

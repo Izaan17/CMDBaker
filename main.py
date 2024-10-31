@@ -89,11 +89,14 @@ def main() -> None:
         if handler.command_exists(args.into):
             path = handler.get_command_path(args.into)
             with open(path, 'r') as file:
-                source = file.read().split()[1]
+                source = file.read().split()[2]
                 folder = os.path.dirname(source)
                 current_shell = os.environ['SHELL'].split("/")[-1]
-                os.chdir(folder)
-                os.system(f"/bin/{current_shell}")
+                try:
+                    os.chdir(folder)
+                    os.system(f"/bin/{current_shell}")
+                except OSError:
+                    print(format_msg(MessageType.ERROR), "An error occurred changing directories.")
         return
 
     if args.main:

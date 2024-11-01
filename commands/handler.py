@@ -3,6 +3,7 @@ from typing import Optional
 from utils.console import MessageType, format_msg
 from utils.shell import chmod_executable
 
+
 class CommandHandler:
     def __init__(self, commands_path: str) -> None:
         self.commands_path = commands_path
@@ -105,4 +106,3 @@ class CommandHandler:
     def bake_command(source: str, shebang: str = "#!/bin/zsh", interpreter: str = "python3") -> str:
         """Create the command string."""
         return f"{shebang}\n{interpreter} {source} $@"
-

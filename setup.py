@@ -12,7 +12,10 @@ ASCII_LOGO = """
 \t\tCMD Baker Setup"""
 
 def ensure_base_directory() -> bool:
-    """Ensure the base application directory exists."""
+    """
+    Ensure the base application directory exists.
+    :return: Whether creating directories was successful or not.
+    """
     try:
         os.makedirs(FOLDER_LOCATION, exist_ok=True)
         return True
@@ -21,7 +24,10 @@ def ensure_base_directory() -> bool:
         return False
 
 def setup_config() -> bool:
-    """Initialize configuration file with main path."""
+    """
+    Initialize configuration file with main path.
+    :return: If setup was successful.
+    """
     if os.path.exists(CONFIG_LOCATION):
         return True
 

@@ -3,6 +3,9 @@ from colorama import Fore
 
 
 class MessageType(Enum):
+    """
+    Representation of types of messages.
+    """
     ERROR = (Fore.RED, "error")
     NOTICE = (Fore.BLUE, "notice")
     CMD = (Fore.GREEN, "cmd")
@@ -15,7 +18,11 @@ class MessageType(Enum):
 
 
 def format_msg(msg_type: MessageType) -> str:
-    """Format a message with color and brackets."""
+    """
+    Format a message using the message type specified in the MessageType class.
+    :param msg_type: Message type.
+    :return: Converted MessageType to color coded string.
+    """""
     color, text = msg_type.value
     return f"[{color}{text}{Fore.RESET}]"
 
@@ -23,10 +30,9 @@ def format_msg(msg_type: MessageType) -> str:
 def confirm(prompt: str, default: bool = None) -> bool:
     """
     Ask for yes/no confirmation.
-
-    Args:
-        prompt: Question to ask
-        default: Default response if user hits enter (None=must choose)
+    :param prompt: Question to ask.
+    :param default: Default response if user hits enter (None=must choose).
+    :return: User response.
     """
     yes_choices = ['y', 'yes']
     no_choices = ['n', 'no']

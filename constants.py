@@ -6,6 +6,10 @@ from utils.console import format_msg, MessageType
 
 
 def get_latest_version() -> float:
+    """
+    Gets the latest version from the GitHub version file.
+    :return: Latest version of CMDBaker. (-1 = Failed to get latest version)
+    """
     version_number = -1
     try:
         version = requests.get('https://raw.githubusercontent.com/Izaan17/CMDBaker/refs/heads/master/version.txt')

@@ -2,7 +2,7 @@ import os
 from utils.console import MessageType, format_msg
 from utils.filesystem import get_path
 from config import Config
-from constants import FOLDER_LOCATION, CONFIG_LOCATION, VERSION
+from constants import FOLDER_LOCATION, CONFIG_LOCATION, LATEST_VERSION
 
 ASCII_LOGO = """
  ____ ____ ____ _________ ____ ____ ____ ____ ____ 
@@ -44,7 +44,7 @@ def setup_config() -> bool:
     config_data = {
         "main_path": main_path,
         "is_baked": False,
-        "version": VERSION
+        "version": LATEST_VERSION
     }
 
     try:

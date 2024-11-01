@@ -4,7 +4,7 @@ import os
 import setup
 from commands.handler import CommandHandler
 from config import Config
-from constants import FOLDER_LOCATION, CONFIG_LOCATION, VERSION
+from constants import FOLDER_LOCATION, CONFIG_LOCATION, LATEST_VERSION
 from utils.console import MessageType, format_msg, confirm
 from utils.shell import add_path_to_terminal
 
@@ -43,7 +43,7 @@ def update_cmd_baker(config) -> None:
     os.chdir(command_origin)
     os.system("git pull")
     os.chdir(current_dir)
-    config.append_config('version', VERSION)
+    config.append_config('version', LATEST_VERSION)
 
 
 def main() -> None:
@@ -80,7 +80,7 @@ def main() -> None:
             os.remove(bake_command_file_path)
             print(format_msg(MessageType.NOTICE), "Successfully deleted old bake command.")
             # update config data with version
-            config_data['version'] = VERSION
+            config_data['version'] = LATEST_VERSION
             config.write_config(config_data)
             return main()
         except OSError as error:
@@ -111,7 +111,7 @@ def main() -> None:
 
     if args.update:
         # config version mismatch
-        if version < VERSION:
+        if version < LATEST_VERSION:
             if confirm(f'{format_msg(MessageType.NOTICE)} An update is available do you want to update?', True):
                 return update_cmd_baker(config)
         else:

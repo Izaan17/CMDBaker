@@ -41,7 +41,7 @@ def update_cmd_baker(config) -> None:
     current_dir = os.getcwd()
     command_origin = os.path.dirname(__file__)
     os.chdir(command_origin)
-    os.system("git pull")
+    os.system("git pull master")
     os.chdir(current_dir)
     config.append_config('version', LATEST_VERSION)
 

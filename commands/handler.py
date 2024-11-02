@@ -14,7 +14,7 @@ class CommandHandler:
         full_path = os.path.join(location, command_name)
 
         try:
-            with open(full_path, 'w') as command_file:
+            with open(full_path, "w") as command_file:
                 command_file.write(baked_command)
             chmod_executable(full_path)
         except IOError as e:
@@ -28,7 +28,7 @@ class CommandHandler:
             return
 
         try:
-            with open(full_path, 'r') as file:
+            with open(full_path, "r") as file:
                 contents = file.read()
                 print(contents)
 
@@ -61,7 +61,7 @@ class CommandHandler:
             return
 
         try:
-            with open(self.get_command_path(command_name), 'r') as file:
+            with open(self.get_command_path(command_name), "r") as file:
                 content = file.read().splitlines()
                 shebang = content[0]
                 command = content[1].split()

@@ -12,7 +12,7 @@ class Config:
         Loads the config into memory and returns the data.
         :return: Config data
         """
-        with open(self.path, 'r') as config_file:
+        with open(self.path, "r") as config_file:
             self.data = json.loads(config_file.read())
             return self.data
 
@@ -31,7 +31,7 @@ class Config:
         d = self.data
         if data:
             d = data
-        with open(self.path, 'w') as config_file:
+        with open(self.path, "w") as config_file:
             config_file.write(json.dumps(d))
         self.data = d
 

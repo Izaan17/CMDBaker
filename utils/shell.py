@@ -3,12 +3,12 @@ from utils.console import MessageType, format_msg
 
 def add_path_to_terminal(main_path: str) -> None:
     """Add the given path to the shell's RC file."""
-    current_shell = os.environ['SHELL'].split("/")[-1]
+    current_shell = os.environ["SHELL"].split("/")[-1]
     path_string = f"export PATH=$PATH:{main_path}\n"
-    rc_path = f"{os.path.expanduser('~')}/.{current_shell}rc"
+    rc_path = f"{os.path.expanduser("~")}/.{current_shell}rc"
 
     try:
-        with open(rc_path, 'a+') as file:
+        with open(rc_path, "a+") as file:
             file.seek(0)
             if path_string not in file.read():
                 file.write(path_string)

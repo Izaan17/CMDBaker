@@ -34,15 +34,15 @@ def confirm(prompt: str, default: bool = None) -> bool:
     :param default: Default response if user hits enter (None=must choose).
     :return: User response.
     """
-    yes_choices = ['y', 'yes']
-    no_choices = ['n', 'no']
+    yes_choices = ["y", "yes"]
+    no_choices = ["n", "no"]
 
     if default is True:
-        prompt += ' [Y/n] '
+        prompt += " [Y/n] "
     elif default is False:
-        prompt += ' [y/N] '
+        prompt += " [y/N] "
     else:
-        prompt += ' [y/n] '
+        prompt += " [y/n] "
 
     while True:
         choice = input(prompt).lower().strip()

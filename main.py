@@ -44,7 +44,7 @@ def update_cmd_baker(config) -> None:
     os.chdir(command_origin)
     os.system("git pull")
     os.chdir(current_dir)
-    config.append_config('version', LATEST_VERSION)
+    config.append_config("version", LATEST_VERSION)
 
 
 def main() -> None:
@@ -52,8 +52,8 @@ def main() -> None:
 
     config = Config(CONFIG_LOCATION)
     config_data = config.load_config()
-    version = config_data.get('version')
-    commands_path = config_data['main_path']
+    version = config_data.get("version")
+    commands_path = config_data["main_path"]
     bake_command_file_path = os.path.join(FOLDER_LOCATION, "bake")
 
     # Initialize command handler
@@ -81,7 +81,7 @@ def main() -> None:
             os.remove(bake_command_file_path)
             print(format_msg(MessageType.NOTICE), "Successfully deleted old bake command.")
             # update config data with version
-            config_data['version'] = LATEST_VERSION
+            config_data["version"] = LATEST_VERSION
             config.write_config(config_data)
             return main()
         except OSError as error:
@@ -92,10 +92,10 @@ def main() -> None:
     if args.into:
         if handler.command_exists(args.into):
             path = handler.get_command_path(args.into)
-            with open(path, 'r') as file:
+            with open(path, "r") as file:
                 source = file.read().split()[2]
                 folder = os.path.dirname(source)
-                current_shell = os.environ['SHELL'].split("/")[-1]
+                current_shell = os.environ["SHELL"].split("/")[-1]
                 try:
                     os.chdir(folder)
                     os.system(f"/bin/{current_shell}")
@@ -113,10 +113,10 @@ def main() -> None:
     if args.update:
         # config version mismatch
         if version < LATEST_VERSION:
-            if confirm(f'{format_msg(MessageType.NOTICE)} An update is available do you want to update?', True):
+            if confirm(f"{format_msg(MessageType.NOTICE)} An update is available do you want to update?", True):
                 return update_cmd_baker(config)
         else:
-            print(f'{format_msg(MessageType.NOTICE)} No update available.')
+            print(f"{format_msg(MessageType.NOTICE)} No update available.")
 
     if args.force_update:
         update_cmd_baker(config)
@@ -138,7 +138,7 @@ def main() -> None:
         return
 
     if args.config:
-        if confirm("Are you sure you want to redo setup?"):
+        if confirm("Are you sure you want to redo setup?", default=False):
             os.remove(CONFIG_LOCATION)
         return
 
@@ -148,7 +148,7 @@ def main() -> None:
 
     if args.command_name and args.source:
         command_name = args.command_name.strip().lower()
-        if command_name == 'bake':
+        if command_name == "bake":
             print(f"{format_msg(MessageType.ERROR)} Command name cannot be 'bake'")
             return
 

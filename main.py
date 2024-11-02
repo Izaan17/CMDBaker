@@ -28,6 +28,7 @@ def get_args() -> argparse.Namespace:
     parser.add_argument("-c", "--config", help="Redo setup process", action="store_true")
     parser.add_argument("-m", "--main", help="Edit main path")
     parser.add_argument("-u", "--update", help="Update from git", action="store_true")
+    parser.add_argument("-fu", "--force-update", help="Force update from git", action="store_true")
     parser.add_argument("-p", "--print", help="Print main path", action="store_true")
     parser.add_argument("-in", "--into", help="CD into baked commands directory")
     parser.add_argument("-v", "--version", help="Outputs current version", action="store_true")
@@ -41,7 +42,7 @@ def update_cmd_baker(config) -> None:
     current_dir = os.getcwd()
     command_origin = os.path.dirname(__file__)
     os.chdir(command_origin)
-    os.system("git pull master")
+    os.system("git pull")
     os.chdir(current_dir)
     config.append_config('version', LATEST_VERSION)
 
@@ -116,6 +117,9 @@ def main() -> None:
                 return update_cmd_baker(config)
         else:
             print(f'{format_msg(MessageType.NOTICE)} No update available.')
+
+    if args.force_update:
+        update_cmd_baker(config)
 
     if args.list:
         handler.list_commands()

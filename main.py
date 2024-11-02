@@ -143,7 +143,11 @@ def main() -> None:
         return
 
     if args.command_name and args.source:
-        command_name = args.command_name.strip()
+        command_name = args.command_name.strip().lower()
+        if command_name == 'bake':
+            print(f"{format_msg(MessageType.ERROR)} Command name cannot be 'bake'")
+            return
+
         if handler.command_exists(command_name):
             print(f"{format_msg(MessageType.ERROR)} Command '{command_name}' already exists")
             return

@@ -2,11 +2,11 @@
 Bake python scripts into your terminal making it easier to run your python scripts.
 Only works on macOS.
 
-# IMPORTANT
-CMDBaker now has a completely different code base. This means that if you are on older versions of bake it will not work.
+# ⚠️ Important
+CMDBaker now has a completely different code base. This means that if you are on older versions of CMDBaker it will no longer work.
 
 ### What do I do if I'm on an old version?
-Simply rerun the original python script called main.py it will automatically re-bake itself. **BEWARE: IT WILL RESTART THE SETUP PROCESS MEANING IT WILL FORGET YOUR BAKED COMMANDS PATH!**
+Simply rerun the original python script called main.py it will automatically re-bake itself.
 
 # Setup
 To set up CMDBaker just run the python file.

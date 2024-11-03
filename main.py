@@ -4,7 +4,7 @@ import os
 import setup
 from commands.handler import CommandHandler
 from config import Config
-from constants import FOLDER_LOCATION, CONFIG_LOCATION, LATEST_VERSION
+from constants import FOLDER_LOCATION, CONFIG_LOCATION, get_latest_version
 from utils.console import MessageType, format_msg, confirm
 from utils.shell import add_path_to_terminal
 
@@ -36,7 +36,7 @@ def get_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def update_cmd_baker(config) -> None:
+def update_cmd_baker(config, latest_version) -> None:
     """Update CMD Baker from git."""
     print(f"{format_msg(MessageType.NOTICE)} Updating...")
     current_dir = os.getcwd()
@@ -44,7 +44,7 @@ def update_cmd_baker(config) -> None:
     os.chdir(command_origin)
     os.system("git pull")
     os.chdir(current_dir)
-    config.append_config("version", LATEST_VERSION)
+    config.append_config("version", latest_version)
 
 
 def main() -> None:
@@ -81,7 +81,7 @@ def main() -> None:
             os.remove(bake_command_file_path)
             print(format_msg(MessageType.NOTICE), "Successfully deleted old bake command.")
             # update config data with version
-            config_data["version"] = LATEST_VERSION
+            config_data["version"] = get_latest_version()
             config.write_config(config_data)
             return main()
         except OSError as error:
@@ -111,15 +111,16 @@ def main() -> None:
         return
 
     if args.update:
+        latest_version = get_latest_version()
         # config version mismatch
-        if version < LATEST_VERSION:
+        if version < latest_version:
             if confirm(f"{format_msg(MessageType.NOTICE)} An update is available do you want to update?", True):
-                return update_cmd_baker(config)
+                return update_cmd_baker(config, latest_version)
         else:
             print(f"{format_msg(MessageType.NOTICE)} No update available.")
 
     if args.force_update:
-        update_cmd_baker(config)
+        update_cmd_baker(config, get_latest_version())
 
     if args.list:
         handler.list_commands()

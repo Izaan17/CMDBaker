@@ -9,7 +9,13 @@ class CommandHandler:
         self.commands_path = commands_path
 
     def create_command(self, command_name: str, baked_command: str, starting_location: Optional[str] = None) -> None:
-        """Create a new baked command."""
+        """
+        Create a new baked command.
+        :param command_name: The command name to be baked.
+        :param baked_command: The compiled version of the baked command.
+        :param starting_location: The starting location of the command. *(Used for baking self)*
+        :return: None
+        """
         location = starting_location or self.commands_path
         full_path = os.path.join(location, command_name)
 
@@ -21,7 +27,11 @@ class CommandHandler:
             print(f"{format_msg(MessageType.ERROR)} Failed to create command: {e}")
 
     def edit_command(self, command_name: str) -> None:
-        """Edit an existing command."""
+        """
+        Edit an existing command.
+        :param command_name: The command name to be edited.
+        :return: None
+        """
         full_path = self.get_command_path(command_name)
         if not self.command_exists(command_name):
             print(f"{format_msg(MessageType.ERROR)} Command '{command_name}' does not exist")
@@ -51,11 +61,19 @@ class CommandHandler:
             print(f"{format_msg(MessageType.ERROR)} Failed to edit command: {e}")
 
     def command_exists(self, command_name: str) -> bool:
-        """Check if a command exists."""
+        """
+        Check if a command exists.
+        :param command_name: The command's name to check.
+        :return: True or False depending on if the command exists.
+        """
         return os.path.exists(self.get_command_path(command_name))
 
     def view_command(self, command_name: str) -> None:
-        """View contents of a command."""
+        """
+        View contents of a command.
+        :param command_name: The command to be viewed.
+        :return: None
+        """
         if not self.command_exists(command_name):
             print(f"{format_msg(MessageType.ERROR)} Command '{command_name}' does not exist")
             return
@@ -78,7 +96,10 @@ class CommandHandler:
             print(f"{format_msg(MessageType.ERROR)} Failed to read command: {e}")
 
     def list_commands(self) -> None:
-        """List all baked commands."""
+        """
+        List all baked commands.
+        :return: None
+        """
         try:
             commands = [cmd for cmd in os.listdir(self.commands_path)
                         if cmd != ".DS_Store"]
@@ -88,7 +109,11 @@ class CommandHandler:
             print(f"{format_msg(MessageType.ERROR)} Failed to list commands: {e}")
 
     def delete_command(self, command_name: str) -> None:
-        """Delete a command."""
+        """
+        Delete a command.
+        :param command_name: The command to delete.
+        :return: None
+        """
         if not self.command_exists(command_name):
             print(f"{format_msg(MessageType.ERROR)} Command '{command_name}' does not exist")
             return
@@ -99,10 +124,34 @@ class CommandHandler:
             print(f"{format_msg(MessageType.ERROR)} Failed to delete command: {e}")
 
     def get_command_path(self, command_name: str) -> str:
-        """Get full path for a command."""
+        """
+        Get full path for a command.
+        :param command_name: The command to get the full path of.
+        :return: Path of the inputted command.
+        """
         return os.path.join(self.commands_path, command_name)
+
+    def get_command_source(self, command_name: str) -> str | None:
+        """
+        Gets the command source file path.
+        :param command_name: The command's name to get.
+        :return: The path of the command's source. *(None if the command doesn't exist)*
+        """
+        if not self.command_exists(command_name):
+            return None
+
+        path = self.get_command_path(command_name)
+        with open(path, "r") as file:
+            source = file.read().split()[2]
+            return source
 
     @staticmethod
     def bake_command(source: str, shebang: str = "#!/bin/zsh", interpreter: str = "python3") -> str:
-        """Create the command string."""
+        """
+        Create the command string.
+        :param source: The source of the python file.
+        :param shebang: The shebang on top of the file.
+        :param interpreter: The interpreter to use.
+        :return: Compiled string of the baked command.
+        """
         return f"{shebang}\n{interpreter} {source} $@"

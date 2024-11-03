@@ -6,7 +6,7 @@ from commands.handler import CommandHandler
 from config import Config
 from constants import FOLDER_LOCATION, CONFIG_LOCATION, get_latest_version
 from utils.console import MessageType, format_msg, confirm
-from utils.shell import add_path_to_terminal
+from utils.shell import add_path_to_terminal, open_fs
 
 
 def get_args() -> argparse.Namespace:
@@ -31,6 +31,7 @@ def get_args() -> argparse.Namespace:
     parser.add_argument("-fu", "--force-update", help="Force update from git", action="store_true")
     parser.add_argument("-p", "--print", help="Print main path", action="store_true")
     parser.add_argument("-in", "--into", help="CD into baked commands directory")
+    parser.add_argument("-es", "--edit-script", help="Edit the baked command's script")
     parser.add_argument("-v", "--version", help="Outputs current version", action="store_true")
 
     return parser.parse_args()
@@ -91,17 +92,19 @@ def main() -> None:
     # Handle command line arguments
     if args.into:
         if handler.command_exists(args.into):
-            path = handler.get_command_path(args.into)
-            with open(path, "r") as file:
-                source = file.read().split()[2]
-                folder = os.path.dirname(source)
-                current_shell = os.environ["SHELL"].split("/")[-1]
-                try:
-                    os.chdir(folder)
-                    os.system(f"/bin/{current_shell}")
-                except OSError:
-                    print(format_msg(MessageType.ERROR), "An error occurred changing directories.")
+            source = handler.get_command_source(args.into)
+            folder = os.path.dirname(source)
+            current_shell = os.environ["SHELL"].split("/")[-1]
+            try:
+                os.chdir(folder)
+                os.system(f"/bin/{current_shell}")
+            except OSError:
+                print(format_msg(MessageType.ERROR), "An error occurred changing directories.")
         return
+
+    if args.edit_script:
+        if handler.command_exists(args.edit_script):
+            return open_fs(handler.get_command_source(args.edit_script))
 
     if args.main:
         if os.path.exists(args.main):
@@ -120,23 +123,19 @@ def main() -> None:
             print(f"{format_msg(MessageType.NOTICE)} No update available.")
 
     if args.force_update:
-        update_cmd_baker(config, get_latest_version())
+        return update_cmd_baker(config, get_latest_version())
 
     if args.list:
-        handler.list_commands()
-        return
+        return handler.list_commands()
 
     if args.delete:
-        handler.delete_command(args.delete)
-        return
+        return handler.delete_command(args.delete)
 
     if args.edit:
-        handler.edit_command(args.edit)
-        return
+        return handler.edit_command(args.edit)
 
     if args.view:
-        handler.view_command(args.view)
-        return
+        return handler.view_command(args.view)
 
     if args.config:
         if confirm("Are you sure you want to redo setup?", default=False):
@@ -144,8 +143,7 @@ def main() -> None:
         return
 
     if args.print:
-        print(f"{format_msg(MessageType.NOTICE)} {commands_path}")
-        return
+        return print(f"{format_msg(MessageType.NOTICE)} {commands_path}")
 
     if args.command_name and args.source:
         command_name = args.command_name.strip().lower()
@@ -166,7 +164,7 @@ def main() -> None:
         print(f"{format_msg(MessageType.CMD)} Baked '{command_name}'")
 
     if args.version:
-        print(format_msg(MessageType.NOTICE), version)
+        return print(format_msg(MessageType.NOTICE), version)
 
 
 if __name__ == '__main__':

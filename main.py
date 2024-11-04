@@ -33,6 +33,7 @@ def get_args() -> argparse.Namespace:
     parser.add_argument("-in", "--into", help="CD into baked commands directory")
     parser.add_argument("-es", "--edit-script", help="Edit the baked command's script")
     parser.add_argument("-v", "--version", help="Outputs current version", action="store_true")
+    parser.add_argument("-vb", "--verbose", help="Print out more details in each command.", action="store_true")
 
     return parser.parse_args()
 
@@ -57,13 +58,13 @@ def main() -> None:
     commands_path = config_data["main_path"]
     bake_command_file_path = os.path.join(FOLDER_LOCATION, "bake")
 
-    # Initialize command handler
-    handler = CommandHandler(commands_path)
-
     # Add path to terminal
     add_path_to_terminal(commands_path)
 
     args = get_args()
+
+    # Initialize command handler
+    handler = CommandHandler(commands_path, args.verbose)
 
     # Self-baking check
     if not os.path.exists(bake_command_file_path):

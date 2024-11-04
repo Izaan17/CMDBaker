@@ -1,12 +1,14 @@
 import os
+import time
 from typing import Optional
 from utils.console import MessageType, format_msg
 from utils.shell import chmod_executable
 
 
 class CommandHandler:
-    def __init__(self, commands_path: str) -> None:
+    def __init__(self, commands_path: str, verbose: bool = None) -> None:
         self.commands_path = commands_path
+        self.verbose = verbose if verbose else False
 
     def create_command(self, command_name: str, baked_command: str, starting_location: Optional[str] = None) -> None:
         """
@@ -101,10 +103,25 @@ class CommandHandler:
         :return: None
         """
         try:
-            commands = [cmd for cmd in os.listdir(self.commands_path)
-                        if cmd != ".DS_Store"]
+            # List files, excluding hidden files
+            commands = [cmd for cmd in os.listdir(self.commands_path) if not cmd.startswith(".")]
+
+            # Define column widths for consistent formatting
+            command_width = 15
+            path_width = max(len(os.path.join(self.commands_path, cmd)) for cmd in commands)
+
             for command in commands:
-                print(f"{format_msg(MessageType.CMD)} {command}")
+                full_path = os.path.join(self.commands_path, command)
+                # If verbose, include the full path and modification time
+                if self.verbose:
+                    mod_time = time.ctime(os.path.getmtime(full_path))
+                    extra = f" | {full_path:<{path_width}} | {mod_time}"
+                else:
+                    extra = ""
+
+                # Print command with consistent column widths
+                print(f"{format_msg(MessageType.CMD)} {command:<{command_width}} {extra}")
+
         except OSError as e:
             print(f"{format_msg(MessageType.ERROR)} Failed to list commands: {e}")
 

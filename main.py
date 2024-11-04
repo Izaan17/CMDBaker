@@ -73,7 +73,6 @@ def main() -> None:
         handler.create_command("bake", baked_command, FOLDER_LOCATION)
         config.append_config("is_baked", True)
         print(f"{format_msg(MessageType.NOTICE)} You can now use the 'bake' command!")
-        return
 
     # Old versions of bake don't have the version key in the config and no longer work so we have to fix it
     if not version:  # User is on old version of bake
@@ -101,50 +100,47 @@ def main() -> None:
                 os.system(f"/bin/{current_shell}")
             except OSError:
                 print(format_msg(MessageType.ERROR), "An error occurred changing directories.")
-        return
 
     if args.edit_script:
         if handler.command_exists(args.edit_script):
-            return open_fs(handler.get_command_source(args.edit_script))
+            open_fs(handler.get_command_source(args.edit_script))
 
     if args.main:
         if os.path.exists(args.main):
             config.append_config("main_path", args.main)
         else:
             print(f"{format_msg(MessageType.ERROR)} Path '{args.main}' does not exist")
-        return
 
     if args.update:
         latest_version = get_latest_version()
         # config version mismatch
         if version < latest_version:
             if confirm(f"{format_msg(MessageType.NOTICE)} An update is available do you want to update?", True):
-                return update_cmd_baker(config, latest_version)
+                update_cmd_baker(config, latest_version)
         else:
             print(f"{format_msg(MessageType.NOTICE)} No update available.")
 
     if args.force_update:
-        return update_cmd_baker(config, get_latest_version())
+        update_cmd_baker(config, get_latest_version())
 
     if args.list:
-        return handler.list_commands()
+        handler.list_commands()
 
     if args.delete:
-        return handler.delete_command(args.delete)
+        handler.delete_command(args.delete)
 
     if args.edit:
-        return handler.edit_command(args.edit)
+        handler.edit_command(args.edit)
 
     if args.view:
-        return handler.view_command(args.view)
+        handler.view_command(args.view)
 
     if args.config:
         if confirm("Are you sure you want to redo setup?", default=False):
             os.remove(CONFIG_LOCATION)
-        return
 
     if args.print:
-        return print(f"{format_msg(MessageType.NOTICE)} {commands_path}")
+        print(f"{format_msg(MessageType.NOTICE)} {commands_path}")
 
     if args.command_name and args.source:
         command_name = args.command_name.strip().lower()
@@ -165,7 +161,7 @@ def main() -> None:
         print(f"{format_msg(MessageType.CMD)} Baked '{command_name}'")
 
     if args.version:
-        return print(format_msg(MessageType.NOTICE), version)
+        print(format_msg(MessageType.NOTICE), version)
 
 
 if __name__ == '__main__':

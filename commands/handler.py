@@ -1,8 +1,9 @@
 import os
 import time
 from typing import Optional
+
 from utils.console import MessageType, format_msg
-from utils.shell import chmod_executable
+from utils.shell import chmod_executable, get_current_shell_path
 
 
 class CommandHandler:
@@ -163,7 +164,7 @@ class CommandHandler:
             return source
 
     @staticmethod
-    def bake_command(source: str, shebang: str = "#!/bin/zsh", interpreter: str = "python3") -> str:
+    def bake_command(source: str, shebang: str | None = None, interpreter: str | None = None) -> str:
         """
         Create the command string.
         :param source: The source of the python file.
@@ -171,4 +172,6 @@ class CommandHandler:
         :param interpreter: The interpreter to use.
         :return: Compiled string of the baked command.
         """
+        shebang = shebang if shebang else "#!" + get_current_shell_path()
+        interpreter = interpreter if interpreter else "python3"
         return f"{shebang}\n{interpreter} {source} $@"

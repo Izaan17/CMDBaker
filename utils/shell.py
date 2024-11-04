@@ -9,7 +9,7 @@ def add_path_to_terminal(main_path: str) -> None:
     :param main_path: Add the main path to the terminals rc file.
     :return: None
     """
-    current_shell = os.environ["SHELL"].split("/")[-1]
+    current_shell = get_current_shell_name()
     path_string = f"export PATH=$PATH:{main_path}\n"
     rc_path = f"{os.path.expanduser("~")}/.{current_shell}rc"
 
@@ -20,6 +20,13 @@ def add_path_to_terminal(main_path: str) -> None:
                 file.write(path_string)
     except IOError as e:
         print(f"{format_msg(MessageType.ERROR)} Failed to update shell config: {e}")
+
+
+def get_current_shell_path() -> str:
+    return os.environ["SHELL"]
+
+def get_current_shell_name() -> str:
+    return get_current_shell_path().split("/")[-1]
 
 
 def chmod_executable(path: str) -> None:
@@ -41,5 +48,3 @@ def open_fs(name: str) -> None:
     :return: None
     """
     os.system(f"open {name}")
-
-

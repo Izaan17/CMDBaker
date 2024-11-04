@@ -6,7 +6,7 @@ from commands.handler import CommandHandler
 from config import Config
 from constants import FOLDER_LOCATION, CONFIG_LOCATION, get_latest_version
 from utils.console import MessageType, format_msg, confirm
-from utils.shell import add_path_to_terminal, open_fs
+from utils.shell import add_path_to_terminal, open_fs, get_current_shell_path
 
 
 def get_args() -> argparse.Namespace:
@@ -94,10 +94,10 @@ def main() -> None:
         if handler.command_exists(args.into):
             source = handler.get_command_source(args.into)
             folder = os.path.dirname(source)
-            current_shell = os.environ["SHELL"].split("/")[-1]
+            current_shell = get_current_shell_path()
             try:
                 os.chdir(folder)
-                os.system(f"/bin/{current_shell}")
+                os.system(current_shell)
             except OSError:
                 print(format_msg(MessageType.ERROR), "An error occurred changing directories.")
 
@@ -151,9 +151,9 @@ def main() -> None:
         if handler.command_exists(command_name):
             print(f"{format_msg(MessageType.ERROR)} Command '{command_name}' already exists")
             return
-
+        print(args.interpreter)
         baked_command = handler.bake_command(
-            args.source,
+            args.source.name,
             args.shebang,
             args.interpreter
         )

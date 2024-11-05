@@ -151,7 +151,6 @@ def main() -> None:
         if handler.command_exists(command_name):
             print(f"{format_msg(MessageType.ERROR)} Command '{command_name}' already exists")
             return
-        print(args.interpreter)
         baked_command = handler.bake_command(
             args.source.name,
             args.shebang,

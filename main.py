@@ -118,11 +118,7 @@ def main() -> None:
 
     # Self-baking check (if 'bake' command doesn't exist, bake it)
     if not os.path.exists(BAKE_SCRIPT_LOCATION):
-        print(format_msg(MessageType.NOTICE), "Baking self...")
-        baked_command = handler.bake_command(__file__)
-        handler.create_command("bake", baked_command, BAKE_SCRIPT_LOCATION)
-        config.append_config("is_baked", True)
-        print(format_msg(MessageType.NOTICE), "You can now use the 'bake' command!")
+        print(format_msg(MessageType.ERROR), "You must download the installer to use bake.")
         return
 
     # Handle old version issues and update bake file

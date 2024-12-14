@@ -32,7 +32,6 @@ def install_bake():
     target_path = BAKE_SCRIPT_LOCATION
 
     try:
-        print(BAKE_SCRIPT_FOLDER)
         command_handler = CommandHandler(BAKE_SCRIPT_FOLDER)
         command_handler.create_command('bake', command_handler.bake_command(script_path))
         print(format_msg(MessageType.NOTICE), f"Installed '{SCRIPT_NAME}' command at {target_path}")

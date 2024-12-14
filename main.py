@@ -95,6 +95,7 @@ def main() -> None:
     if args.install:
         ensure_install_dir()
         install_bake()
+        return
 
     setup.main()  # Initialize settings
 

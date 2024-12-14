@@ -4,7 +4,7 @@ import os
 import setup
 from commands.handler import CommandHandler
 from config import Config
-from constants import FOLDER_LOCATION, CONFIG_LOCATION, get_latest_version
+from constants import FOLDER_LOCATION, CONFIG_LOCATION, fetch_latest_version
 from utils.console import MessageType, format_msg, confirm
 from utils.shell import add_path_to_terminal, open_fs, get_current_shell_path
 
@@ -104,7 +104,7 @@ def main() -> None:
             os.remove(bake_command_file_path)
             print(format_msg(MessageType.NOTICE), "Successfully deleted old bake command.")
             # Update config with the latest version
-            config_data["version"] = get_latest_version()
+            config_data["version"] = fetch_latest_version()
             config.write_config(config_data)
             return main()
         except OSError as error:
@@ -139,14 +139,14 @@ def main() -> None:
             os.remove(CONFIG_LOCATION)
     elif args.update:
         # Handle update process
-        latest_version = get_latest_version()
+        latest_version = fetch_latest_version()
         if version < latest_version:
             if confirm(f"{format_msg(MessageType.NOTICE)} An update is available. Do you want to update?", True):
                 update_cmd_baker(config, latest_version)
         else:
             print(f"{format_msg(MessageType.NOTICE)} No update available.")
     elif args.force_update:
-        update_cmd_baker(config, get_latest_version())
+        update_cmd_baker(config, fetch_latest_version())
     elif args.version:
         print(f"{format_msg(MessageType.NOTICE)} Version: {version}")
     elif args.edit_script:

@@ -31,8 +31,7 @@ def fetch_latest_version() -> float:
 SCRIPT_NAME = 'bake'
 USER = getpass.getuser()
 HOME_PATH = os.path.expanduser("~")
-BAKE_SCRIPT_FOLDER = os.path.expanduser("~/.local/bin")
+BAKE_SCRIPT_HOME_FOLDER = os.path.expanduser("~/.local/bin")
+BAKE_SCRIPT_FILE_PATH = os.path.join(BAKE_SCRIPT_HOME_FOLDER, SCRIPT_NAME)
 BAKE_FOLDER = os.path.join(HOME_PATH, '.bake')
-BAKE_SCRIPT_LOCATION = os.path.join(BAKE_SCRIPT_FOLDER, SCRIPT_NAME)
-FOLDER_LOCATION = os.path.join(HOME_PATH, "Bake")
-CONFIG_LOCATION = os.path.join(FOLDER_LOCATION, "config.json")
+CONFIG_LOCATION = os.path.join(BAKE_FOLDER, "config.json")

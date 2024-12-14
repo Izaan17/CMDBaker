@@ -5,22 +5,22 @@ import shutil
 import setup
 from commands.handler import CommandHandler
 from config import Config
-from constants import CONFIG_LOCATION, fetch_latest_version, HOME_PATH, SCRIPT_NAME, BAKE_SCRIPT_LOCATION, \
-    BAKE_SCRIPT_FOLDER
+from constants import CONFIG_LOCATION, fetch_latest_version, HOME_PATH, SCRIPT_NAME, BAKE_SCRIPT_FILE_PATH, \
+    BAKE_SCRIPT_HOME_FOLDER
 from utils.console import MessageType, format_msg, confirm
 from utils.shell import add_path_to_terminal, open_fs, get_current_shell_path, get_current_shell_rc
 
 
 def ensure_install_dir():
     """Ensure the installation directory exists and is in the PATH."""
-    os.makedirs(BAKE_SCRIPT_FOLDER, exist_ok=True)  # Create ~/.local/bin if it doesn't exist
+    os.makedirs(BAKE_SCRIPT_HOME_FOLDER, exist_ok=True)  # Create ~/.local/bin if it doesn't exist
 
     # Check if BAKE_SCRIPT_FOLDER is in PATH
-    if BAKE_SCRIPT_FOLDER not in os.getenv("PATH", ""):
-        add_path_to_terminal(BAKE_SCRIPT_FOLDER)
+    if BAKE_SCRIPT_HOME_FOLDER not in os.getenv("PATH", ""):
+        add_path_to_terminal(BAKE_SCRIPT_HOME_FOLDER)
 
         print(format_msg(MessageType.NOTICE),
-              f"Added {BAKE_SCRIPT_FOLDER} to PATH. Please restart your terminal or run:")
+              f"Added {BAKE_SCRIPT_HOME_FOLDER} to PATH. Please restart your terminal or run:")
         print(f"source {get_current_shell_rc()}")
     else:
         print(format_msg(MessageType.NOTICE), f"Path is already in shell config.")
@@ -29,10 +29,10 @@ def ensure_install_dir():
 def install_bake():
     """Install the script as a global command."""
     script_path = os.path.realpath(__file__)
-    target_path = BAKE_SCRIPT_LOCATION
+    target_path = BAKE_SCRIPT_FILE_PATH
 
     try:
-        command_handler = CommandHandler(BAKE_SCRIPT_FOLDER)
+        command_handler = CommandHandler(BAKE_SCRIPT_HOME_FOLDER)
         command_handler.create_command('bake', command_handler.bake_command(script_path))
         print(format_msg(MessageType.NOTICE), f"Installed '{SCRIPT_NAME}' command at {target_path}")
     except Exception as e:
@@ -117,7 +117,7 @@ def main() -> None:
         shutil.rmtree(old_path)
 
     # Self-baking check (if 'bake' command doesn't exist, bake it)
-    if not os.path.exists(BAKE_SCRIPT_LOCATION):
+    if not os.path.exists(BAKE_SCRIPT_FILE_PATH):
         print(format_msg(MessageType.ERROR), "You must download the installer to use bake.")
         return
 
@@ -126,14 +126,14 @@ def main() -> None:
         print(format_msg(MessageType.WARNING), "You are on an old version of bake.")
         print(format_msg(MessageType.NOTICE), "Deleting old bake file.")
         try:
-            os.remove(BAKE_SCRIPT_LOCATION)
+            os.remove(BAKE_SCRIPT_FILE_PATH)
             print(format_msg(MessageType.NOTICE), "Successfully deleted old bake command.")
             config_data["version"] = fetch_latest_version()
             config.write_config(config_data)
             return main()
         except OSError as error:
             print(format_msg(MessageType.ERROR), f"An error occurred deleting the old bake file: {error}")
-            print(format_msg(MessageType.NOTICE), f"You can delete it manually located at: {BAKE_SCRIPT_LOCATION}")
+            print(format_msg(MessageType.NOTICE), f"You can delete it manually located at: {BAKE_SCRIPT_FILE_PATH}")
 
     # Handle specific flags like list, delete, update, etc.
     if args.list:

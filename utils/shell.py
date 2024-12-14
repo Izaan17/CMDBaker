@@ -25,6 +25,7 @@ def add_path_to_terminal(main_path: str) -> None:
 def get_current_shell_path() -> str:
     return os.environ["SHELL"]
 
+
 def get_current_shell_name() -> str:
     return get_current_shell_path().split("/")[-1]
 

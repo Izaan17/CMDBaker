@@ -91,9 +91,11 @@ def update_cmd_baker(config, latest_version) -> None:
 
 def main() -> None:
     """Main function to handle command-line operations."""
-    ensure_install_dir()
-    install_bake()
     args = get_args()
+
+    if args.install:
+        ensure_install_dir()
+        install_bake()
 
     setup.main()  # Initialize settings
 

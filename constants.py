@@ -32,6 +32,7 @@ SCRIPT_NAME = 'bake'
 USER = getpass.getuser()
 HOME_PATH = os.path.expanduser("~")
 BAKE_SCRIPT_FOLDER = os.path.expanduser("~/.local/bin")
+BAKE_FOLDER = os.path.join(HOME_PATH, '.bake')
 BAKE_SCRIPT_LOCATION = os.path.join(BAKE_SCRIPT_FOLDER, SCRIPT_NAME)
 FOLDER_LOCATION = os.path.join(HOME_PATH, "Bake")
 CONFIG_LOCATION = os.path.join(FOLDER_LOCATION, "config.json")

@@ -6,7 +6,7 @@ import setup
 from commands.handler import CommandHandler
 from config import Config
 from constants import CONFIG_LOCATION, fetch_latest_version, HOME_PATH, SCRIPT_NAME, BAKE_SCRIPT_LOCATION, \
-    BAKE_SCRIPT_FOLDER
+    BAKE_SCRIPT_FOLDER, BAKE_FOLDER
 from utils.console import MessageType, format_msg, confirm
 from utils.shell import add_path_to_terminal, open_fs, get_current_shell_path, get_current_shell_rc
 
@@ -33,7 +33,7 @@ def install_bake():
 
     try:
         command_handler = CommandHandler(BAKE_SCRIPT_FOLDER)
-        command_handler.create_command('bake', command_handler.bake_command(script_path))
+        command_handler.create_command('bake', command_handler.bake_command(script_path), BAKE_FOLDER)
         print(format_msg(MessageType.NOTICE), f"Installed '{SCRIPT_NAME}' command at {target_path}")
     except Exception as e:
         print(f"Failed to install '{SCRIPT_NAME}': {e}")

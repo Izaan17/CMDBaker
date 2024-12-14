@@ -1,27 +1,30 @@
 import getpass
-import requests
 import os
+import requests
 
 from utils.console import format_msg, MessageType
 
+GITHUB_VERSION_URL = "https://raw.githubusercontent.com/Izaan17/CMDBaker/refs/heads/master/version.txt"
 
-def get_latest_version() -> float:
+def fetch_latest_version() -> float:
     """
-    Gets the latest version from the GitHub version file.
-    :return: Latest version of CMDBaker. (-1 = Failed to get latest version)
+    Fetches the latest version of CMDBaker from a GitHub URL.
+
+    :return: Latest version of CMDBaker as a float. Returns -1 if an error occurs.
     """
-    version_number = -1
     try:
-        version = requests.get("https://raw.githubusercontent.com/Izaan17/CMDBaker/refs/heads/master/version.txt")
-        version_number = float(version.text)
-    except requests.exceptions.RequestException:
-        pass
-    except Exception as error:
-        print(format_msg(MessageType.ERROR), f"An unknown error occurred getting the latest version: {error}")
-        pass
+        response = requests.get(GITHUB_VERSION_URL)
+        response.raise_for_status()  # Raises HTTPError for bad responses (4xx or 5xx)
+        return float(response.text.strip())  # Ensure we get the version as a float after stripping whitespace
+    except requests.exceptions.RequestException as e:
+        print(format_msg(MessageType.ERROR), f"Error fetching version from GitHub: {e}")
+    except ValueError as e:
+        print(format_msg(MessageType.ERROR), f"Error parsing version: {e}")
+    except Exception as e:
+        print(format_msg(MessageType.ERROR), f"An unexpected error occurred: {e}")
+    return -1
 
-    return version_number
-
+# Path configurations
 USER = getpass.getuser()
 HOME_PATH = os.path.expanduser("~")
 FOLDER_LOCATION = os.path.join(HOME_PATH, "CMDBaker")

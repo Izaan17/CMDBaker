@@ -10,7 +10,6 @@ ASCII_LOGO = r"""             _    _       _
 |  _|     | . |  | . | .'| '_| -_|  _|
 |___|_|_|_|___|  |___|__,|_,_|___|_|  
 """
-print(ASCII_LOGO)
 
 
 def ensure_base_directory() -> bool:

@@ -1,15 +1,17 @@
 import os
-from utils.console import MessageType, format_msg
-from utils.filesystem import get_path
+
 from config import Config
 from constants import FOLDER_LOCATION, CONFIG_LOCATION, get_latest_version
+from utils.console import MessageType, format_msg
+from utils.filesystem import get_path
 
-ASCII_LOGO = """
- ____ ____ ____ _________ ____ ____ ____ ____ ____ 
-||C |||M |||D |||       |||B |||a |||k |||e |||r ||
-||__|||__|||__|||_______|||__|||__|||__|||__|||__||
-|/__\\|/__\\|/__\\|/_______\\|/__\\|/__\\|/__\\|/__\\|/__\\|
-\t\tCMD Baker Setup"""
+ASCII_LOGO = r"""             _    _       _           
+ ___ _____ _| |  | |_ ___| |_ ___ ___ 
+|  _|     | . |  | . | .'| '_| -_|  _|
+|___|_|_|_|___|  |___|__,|_,_|___|_|  
+"""
+print(ASCII_LOGO)
+
 
 def ensure_base_directory() -> bool:
     """
@@ -22,6 +24,7 @@ def ensure_base_directory() -> bool:
     except PermissionError:
         print(f"{format_msg(MessageType.ERROR)} Cannot create base directory")
         return False
+
 
 def setup_config() -> bool:
     """
@@ -55,6 +58,7 @@ def setup_config() -> bool:
         print(f"{format_msg(MessageType.ERROR)} Failed to write config: {e}")
         return False
 
+
 def main() -> None:
     """Run the setup process."""
     if not ensure_base_directory():
@@ -62,6 +66,7 @@ def main() -> None:
 
     if not setup_config():
         return
+
 
 if __name__ == "__main__":
     main()

@@ -2,7 +2,6 @@
 
 Bake is a tool for baking Python scripts into your terminal, making it easier to run your Python scripts as terminal commands. **Currently supports macOS only**.
 
----
 
 ## ⚠️ Important Notice
 
@@ -16,7 +15,6 @@ To migrate to the latest version, simply download the bake [installer script](#i
 python3 main.py
 ```
 
----
 
 ## Installation & Setup
 
@@ -36,7 +34,6 @@ Once installed, you can run Bake with:
 bake -v
 ```
 
----
 
 ## Usage
 
@@ -59,13 +56,11 @@ bake myscript myscript.py
 
 This will bake the `myscript.py` Python script and assign it the command `myscript`.
 
----
 
 ## Created Command Showcase
 
 ![Bake Tutorial](https://imgur.com/T57lKb8.gif)
 
----
 
 ## Available Flags
 
@@ -112,7 +107,6 @@ To check which version of Bake you're using, run:
 bake -v
 ```
 
----
 
 ## Updating Bake
 
@@ -130,7 +124,6 @@ python3 main.py --force-update
 
 This will pull the latest version from the Git repository and update your Bake installation.
 
----
 
 ## Conclusion
 

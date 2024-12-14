@@ -11,15 +11,10 @@ def add_path_to_terminal(main_path: str) -> None:
     :return: None
     """
     try:
-        current_shell = get_current_shell_name()
-        rc_path = os.path.expanduser(f"~/.{current_shell}rc")
-        path_string = f"export PATH=$PATH:{main_path}\n"
+        rc_path = get_current_shell_rc()
 
-        # Append the path to the RC file if it doesn't already exist
-        with open(rc_path, "a+") as file:
-            file.seek(0)
-            if path_string not in file.read():
-                file.write(path_string)
+        with open(rc_path, "a") as file:
+            file.write(f'\nexport PATH=$PATH:"{main_path}"\n')
     except IOError as e:
         print(f"{format_msg(MessageType.ERROR)} Failed to update shell config: {e}")
 
@@ -40,6 +35,13 @@ def get_current_shell_name() -> str:
     :return: The name of the current shell.
     """
     return os.path.basename(get_current_shell_path())
+
+
+def get_current_shell_rc() -> str:
+    current_shell = get_current_shell_name()
+    rc_path = os.path.expanduser(f"~/.{current_shell}rc")
+
+    return rc_path
 
 
 def chmod_executable(path: str) -> None:

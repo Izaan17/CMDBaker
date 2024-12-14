@@ -11,10 +11,6 @@ Bake is a tool for baking Python scripts into your terminal, making it easier to
 
 To migrate to the latest version, simply follow the installation instructions [installer script](#installation--setup).
 
-```zsh
-python3 main.py
-```
-
 
 ## Installation & Setup
 

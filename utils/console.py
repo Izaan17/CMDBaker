@@ -22,7 +22,7 @@ def format_msg(msg_type: MessageType) -> str:
     Format a message using the message type specified in the MessageType class.
     :param msg_type: Message type.
     :return: Converted MessageType to color coded string.
-    """""
+    """
     color, text = msg_type.value
     return f"[{color}{text}{Fore.RESET}]"
 

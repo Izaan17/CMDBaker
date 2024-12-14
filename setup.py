@@ -1,7 +1,7 @@
 import os
 
 from config import Config
-from constants import FOLDER_LOCATION, CONFIG_LOCATION, get_latest_version
+from constants import FOLDER_LOCATION, CONFIG_LOCATION, fetch_latest_version
 from utils.console import MessageType, format_msg
 from utils.filesystem import get_path
 
@@ -51,7 +51,7 @@ def setup_config() -> bool:
     config_data = {
         "main_path": main_path,
         "is_baked": False,
-        "version": get_latest_version()
+        "version": fetch_latest_version()
     }
 
     # Attempt to write the config file

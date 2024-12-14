@@ -1,7 +1,7 @@
 import os
 
 from config import Config
-from constants import FOLDER_LOCATION, CONFIG_LOCATION, fetch_latest_version
+from constants import CONFIG_LOCATION, fetch_latest_version
 from utils.console import MessageType, format_msg
 from utils.filesystem import get_path
 
@@ -10,20 +10,6 @@ ASCII_LOGO = r"""             _    _       _
 |  _|     | . |  | . | .'| '_| -_|  _|
 |___|_|_|_|___|  |___|__,|_,_|___|_|  
 """
-
-
-def ensure_base_directory() -> bool:
-    """
-    Ensure the base application directory exists.
-
-    :return: True if directory was created or exists, False otherwise.
-    """
-    try:
-        os.makedirs(FOLDER_LOCATION, exist_ok=True)
-        return True
-    except PermissionError:
-        print(f"{format_msg(MessageType.ERROR)} Cannot create base directory.")
-        return False
 
 
 def setup_config() -> bool:
@@ -66,8 +52,6 @@ def setup_config() -> bool:
 
 def main() -> None:
     """Run the setup process."""
-    if not ensure_base_directory():
-        return
 
     if not setup_config():
         return

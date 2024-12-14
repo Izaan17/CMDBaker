@@ -92,11 +92,18 @@ bake -in COMMAND_NAME
 
 ### Edit or Delete a Baked Command
 
-You can also edit or delete existing baked commands using the `-es` and `-d` flags, respectively:
+You can also edit or delete existing baked commands using the `-e` and `-d` flags, respectively:
 
 ```zsh
-bake -es COMMAND_NAME  # Edit a baked command
+bake -e COMMAND_NAME  # Edit a baked command
 bake -d COMMAND_NAME   # Delete a baked command
+```
+
+### Edit Script Directly
+
+You can also edit the contents of the target script anyway by using the `-es` flag.
+```zsh
+bake -es COMMAND_NAME # Edit the script contents with the respective application
 ```
 
 ### View Current Version of Bake
@@ -113,13 +120,13 @@ bake -v
 Bake will notify you if there is a new version available. To update Bake, use the following command:
 
 ```zsh
-python3 main.py --update
+bake -u
 ```
 
 You can also force an update with:
 
 ```zsh
-python3 main.py --force-update
+bake -fu
 ```
 
 This will pull the latest version from the Git repository and update your Bake installation.

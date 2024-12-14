@@ -101,7 +101,7 @@ bake -d COMMAND_NAME   # Delete a baked command
 
 ### Edit Script Directly
 
-You can also edit the contents of the target script anyway by using the `-es` flag.
+You can also edit the contents of the target script by using the `-es` flag:
 ```zsh
 bake -es COMMAND_NAME # Edit the script contents with the respective application
 ```

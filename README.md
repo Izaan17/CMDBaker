@@ -24,7 +24,7 @@ You can find the `bake` installer in the [Bake Installer GitHub repository](http
 
 ### Step 2: Run Bake
 
-Once installed, you can run Bake with:
+Once installed, you can test run Bake with the version command:
 
 ```zsh
 bake -v
